@@ -34,6 +34,8 @@ app.post("/create-payment-intent", async (req, res) => {
     // Send publishable key and PaymentIntent details to client
     res.send({
       clientSecret: paymentIntent.client_secret,
+      ephemeralKey: ephemeralKey.secret,
+      customer: customer.id,
     });
   } catch (e) {
     return res.status(400).send({
