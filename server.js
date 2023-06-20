@@ -25,6 +25,11 @@ app.get("/config", (req, res) => {
 app.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
   try {
+    const customer = await stripe.customers.create();
+    const ephemeralKey = await stripe.ephemeralKeys.create(
+      { customer: customer.id },
+      { apiVersion: "2020-08-27" }
+    );
     const paymentIntent = await stripe.paymentIntents.create({
       currency: currency,
       amount: amount,
